@@ -8,7 +8,7 @@ function! rubyfmt#Format() abort
     try | silent undojoin | catch | endtry
     let old_fileformat = &fileformat
     call rename(tmpname, expand('%'))
-    silent edit!
+    silent noau edit!
     let &fileformat = old_fileformat
     let &syntax = &syntax
   else
