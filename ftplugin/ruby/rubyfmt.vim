@@ -1,7 +1,7 @@
 if get(g:, "rubyfmt_auto", 1)
   augroup RubyFmt
     au!
-    autocmd BufWritePre *.rb call rubyfmt#Format()
+    autocmd BufWritePost *.rb call rubyfmt#Format()
   augroup END
 endif
 
