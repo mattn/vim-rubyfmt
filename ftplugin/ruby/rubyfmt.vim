@@ -1,3 +1,7 @@
+if !executable('rubocop')
+  finish
+endif
+
 if get(g:, "rubyfmt_auto", 1)
   augroup RubyFmt
     au!
