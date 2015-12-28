@@ -1,6 +1,7 @@
 function! rubyfmt#Format() abort
   try
     let curw = winsaveview()
+    if &modified | noau update | endif
     let command = 'rubocop -a'
     let old_fileformat = &fileformat
     let lines = split(system(command . ' ' . expand('%')), '\n')
