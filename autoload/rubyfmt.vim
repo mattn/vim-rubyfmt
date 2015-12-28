@@ -1,17 +1,16 @@
 function! rubyfmt#Format() abort
-  let curw = winsaveview()
-  let tempfile = tempname()
-  call writefile(getline(1, '$'), tempfile)
-  let command = 'rubocop -a'
-  let old_fileformat = &fileformat
-  let lines = split(system(command . ' ' . expand('%')), '\n')
-  silent edit!
-  let &fileformat = old_fileformat
-  let &syntax = &syntax
-
-  if v:shell_error == 0
-    try | silent undojoin | catch | endtry
-  else
+  try
+    let curw = winsaveview()
+    let command = 'rubocop -a'
+    let old_fileformat = &fileformat
+    let lines = split(system(command . ' ' . expand('%')), '\n')
+    silent edit!
+    let &fileformat = old_fileformat
+    let &syntax = &syntax
+    if v:shell_error == 0
+      try | silent undojoin | catch | endtry
+      return
+    endif
     let errors = []
     for line in lines
       let tokens = matchlist(line, '^\(.\{-}\):\(\d\+\):\(\d\+\):\s*\(.*\)')
@@ -27,6 +26,7 @@ function! rubyfmt#Format() abort
       call setqflist(errors)
       copen | cc
     endif
-  endif
-  call winrestview(curw)
+  finally
+    call winrestview(curw)
+  endtry
 endfunction
