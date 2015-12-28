@@ -5,7 +5,6 @@ function! rubyfmt#Format() abort
     let old_fileformat = &fileformat
     let lines = split(system('rubocop -a' . ' ' . expand('%')), '\n')
     silent edit!
-    let &fileformat = old_fileformat
     let &syntax = &syntax
     if v:shell_error == 0
       try | silent undojoin | catch | endtry
