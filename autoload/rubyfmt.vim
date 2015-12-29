@@ -12,13 +12,15 @@ function! rubyfmt#Format() abort
     endif
     let errors = []
     for line in lines
-      let tokens = matchlist(line, '^\(.\{-}\):\(\d\+\):\(\d\+\):\s*\(.*\)')
+      let tokens = matchlist(line, '^\(.\{-}\):\(\d\+\):\(\d\+\):\s*\([A-Z]\):\s*\(.*\)')
       if len(tokens) > 1
+        let tokens[4] = tr(tokens[4], 'C', 'I')
         call add(errors, {
         \"filename": tokens[1],
         \"lnum":     tokens[2],
         \"col":      tokens[3],
-        \"text":     tokens[4]})
+        \"type":     tokens[4],
+        \"text":     tokens[5]})
       endif
     endfor
     if !empty(errors)
