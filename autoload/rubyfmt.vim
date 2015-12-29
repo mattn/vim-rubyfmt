@@ -3,7 +3,7 @@ function! rubyfmt#Format() abort
     let curw = winsaveview()
     if &modified | noau update | endif
     let old_fileformat = &fileformat
-    let lines = split(system('rubocop -a' . ' ' . expand('%')), '\n')
+    let lines = split(system('rubocop -a' . ' ' . shellescape(expand('%'))), '\n')
     silent edit!
     let &syntax = &syntax
     if v:shell_error == 0
