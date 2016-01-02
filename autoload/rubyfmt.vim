@@ -25,7 +25,9 @@ function! rubyfmt#Format() abort
     endfor
     if !empty(errors)
       call setqflist(errors)
-      copen | cc
+      if get(g:, "rubyfmt_autoopen", 1)
+        copen | cc
+      end
     endif
   finally
     call winrestview(curw)
